@@ -1,0 +1,19 @@
+#MySQL settings for the project
+
+#SQL script for creating database
+CREATE DATABASE `test` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
+#SQL script for creating table
+CREATE TABLE `objects` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(45) NOT NULL,
+  `value` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+
+#MySQL server credentials
+user student
+password student
+
+
