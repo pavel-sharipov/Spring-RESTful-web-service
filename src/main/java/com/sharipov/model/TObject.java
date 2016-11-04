@@ -22,8 +22,13 @@ public class TObject {
 	}
 
 	public TObject(int id, String title, long value) {
-		super();
+
 		this.id = id;
+		this.title = title;
+		this.value = value;
+	}
+
+	public TObject(String title, long value) {
 		this.title = title;
 		this.value = value;
 	}

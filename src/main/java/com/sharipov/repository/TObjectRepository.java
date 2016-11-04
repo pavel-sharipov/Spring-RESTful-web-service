@@ -1,5 +1,7 @@
 package com.sharipov.repository;
 
+import java.util.List;
+
 import javax.persistence.Table;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,5 +12,5 @@ import com.sharipov.model.TObject;
 @Repository
 @Table(name = "objects")
 public interface TObjectRepository extends JpaRepository<TObject, Integer> {
-
+	List<TObject> findByTitle(String title);
 }
