@@ -28,6 +28,7 @@ public class TObjectRepositoryTest {
 	public void findByTitle_CorrectString_Success() {
 		entityManager.persist(new TObject("test title", 20L));
 		List<TObject> list = this.tObjectRepository.findByTitle("test title");
+		list.stream().forEach(x -> System.out.println(x.getTitle()));
 		org.junit.Assert.assertEquals(list.size(), 1);
 		
 	}
