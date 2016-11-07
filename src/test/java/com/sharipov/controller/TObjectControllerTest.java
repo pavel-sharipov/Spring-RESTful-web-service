@@ -1,13 +1,12 @@
 package com.sharipov.controller;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -89,6 +88,13 @@ public class TObjectControllerTest {
 		mockMvc.perform(post("/object").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
 				.content(MAPPER.writeValueAsString(tObject))).andExpect(status().isBadRequest());
 	}
+	@Test
+	public void saveTObject_NotValidId_NotFound() throws Exception {
+		TObject tObject = new TObject(2, "test post", 20);
+		given(tObjectService.contains(2)).willReturn(false);
+		mockMvc.perform(post("/object/2").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+				.content(MAPPER.writeValueAsString(tObject))).andExpect(status().isNotFound());
+	}
 
 	@Test
 	public void updateTObject_validTObject_TObjectIsReturned() throws Exception {
@@ -113,20 +119,25 @@ public class TObjectControllerTest {
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.id", Matchers.equalTo(1)));
 	}
-	
+
+	@Test
+	public void findTObjectByID_NonCorrectId_NotFound() throws Exception {
+		given(tObjectService.contains(1)).willReturn(false);
+		mockMvc.perform(get("/object/1")).andExpect(status().isNotFound());
+	}
+
 	@Test
 	public void deleteTObjectById_CorrectId_OneObjectIsDeleted() throws Exception {
 		given(tObjectService.contains(1)).willReturn(true);
 		doNothing().when(tObjectService).delete(1);
 		mockMvc.perform(delete("/object/1")).andExpect(status().isOk())
-		.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 	}
+
 	@Test
 	public void deleteTObjectById_NonCorrectId_NotFound() throws Exception {
 		given(tObjectService.contains(1)).willReturn(false);
 		mockMvc.perform(delete("/object/1")).andExpect(status().isNotFound());
 	}
-	
-	
 
 }
