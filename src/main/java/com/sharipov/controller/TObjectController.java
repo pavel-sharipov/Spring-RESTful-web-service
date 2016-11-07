@@ -55,12 +55,13 @@ public class TObjectController {
 	}
 
 	@RequestMapping(path = "object/{id}", method = RequestMethod.DELETE)
-	public void deleteTObject(@PathVariable("id") Integer id, @RequestBody TObject tObject) {
+	public ResponseEntity<Integer> deleteTObject(@PathVariable("id") Integer id) {
 		LOGGER.info(String.format("Request to DELETE TObject with id: %d ...", id));
 		if (Objects.nonNull(id) && !tObjectService.contains(id)) {
 			throw new TObjectNotFoundException();
 		}
 		tObjectService.delete(id);
+		return new ResponseEntity<Integer>(id, HttpStatus.OK);
 	}
 
 	@RequestMapping(path = "object/{id}", method = RequestMethod.GET)

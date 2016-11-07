@@ -1,10 +1,13 @@
 package com.sharipov.controller;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -104,11 +107,26 @@ public class TObjectControllerTest {
 	@Test
 	public void findTObjectByID_StorageIsNotEmpty_OneObjectIsReturned() throws Exception {
 		TObject tObject = new TObject(1, "Test TObject", 100);
-		org.mockito.BDDMockito.given(tObjectService.findOne(1)).willReturn(tObject);
+		given(tObjectService.findOne(1)).willReturn(tObject);
 		given(tObjectService.contains(1)).willReturn(true);
 		mockMvc.perform(get("/object/1")).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.id", Matchers.equalTo(1)));
 	}
+	
+	@Test
+	public void deleteTObjectById_CorrectId_OneObjectIsDeleted() throws Exception {
+		given(tObjectService.contains(1)).willReturn(true);
+		doNothing().when(tObjectService).delete(1);
+		mockMvc.perform(delete("/object/1")).andExpect(status().isOk())
+		.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+	}
+	@Test
+	public void deleteTObjectById_NonCorrectId_NotFound() throws Exception {
+		given(tObjectService.contains(1)).willReturn(false);
+		mockMvc.perform(delete("/object/1")).andExpect(status().isNotFound());
+	}
+	
+	
 
 }
