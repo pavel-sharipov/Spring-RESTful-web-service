@@ -88,6 +88,7 @@ public class TObjectControllerTest {
 		mockMvc.perform(post("/object").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
 				.content(MAPPER.writeValueAsString(tObject))).andExpect(status().isBadRequest());
 	}
+
 	@Test
 	public void saveTObject_NotValidId_NotFound() throws Exception {
 		TObject tObject = new TObject(2, "test post", 20);
@@ -111,7 +112,7 @@ public class TObjectControllerTest {
 	}
 
 	@Test
-	public void findTObjectByID_StorageIsNotEmpty_OneObjectIsReturned() throws Exception {
+	public void findTObjectByID_ValidId_OneObjectIsReturned() throws Exception {
 		TObject tObject = new TObject(1, "Test TObject", 100);
 		given(tObjectService.findOne(1)).willReturn(tObject);
 		given(tObjectService.contains(1)).willReturn(true);
@@ -121,13 +122,13 @@ public class TObjectControllerTest {
 	}
 
 	@Test
-	public void findTObjectByID_NonCorrectId_NotFound() throws Exception {
+	public void findTObjectByID_NotValidId_NotFound() throws Exception {
 		given(tObjectService.contains(1)).willReturn(false);
 		mockMvc.perform(get("/object/1")).andExpect(status().isNotFound());
 	}
 
 	@Test
-	public void deleteTObjectById_CorrectId_OneObjectIsDeleted() throws Exception {
+	public void deleteTObjectById_ValidId_OneObjectIsDeleted() throws Exception {
 		given(tObjectService.contains(1)).willReturn(true);
 		doNothing().when(tObjectService).delete(1);
 		mockMvc.perform(delete("/object/1")).andExpect(status().isOk())
@@ -135,7 +136,7 @@ public class TObjectControllerTest {
 	}
 
 	@Test
-	public void deleteTObjectById_NonCorrectId_NotFound() throws Exception {
+	public void deleteTObjectById_NotValidId_NotFound() throws Exception {
 		given(tObjectService.contains(1)).willReturn(false);
 		mockMvc.perform(delete("/object/1")).andExpect(status().isNotFound());
 	}

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -30,6 +29,6 @@ public class TObjectRepositoryTest {
 		List<TObject> list = this.tObjectRepository.findByTitle("test title");
 		list.stream().forEach(x -> System.out.println(x.getTitle()));
 		org.junit.Assert.assertEquals(list.size(), 1);
-		
+
 	}
 }
