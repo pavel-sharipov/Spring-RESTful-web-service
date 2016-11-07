@@ -43,7 +43,7 @@ public class TObjectServiceBean implements TObjectService {
 			tObject.setId(id);
 		}
 		tObjectRepository.saveAndFlush(tObject);
-		LOGGER.debug(String.format("TObject with id: %d created/updated. TObject: " + tObject, id));
+		LOGGER.debug(String.format("TObject with id: %d created/updated. TObject: %s ", id, tObject));
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class TObjectServiceBean implements TObjectService {
 	@Transactional(readOnly = true)
 	public TObject findOne(Integer id) {
 		TObject tObject = tObjectRepository.findOne(id);
-		LOGGER.debug(String.format("TObject with id: %d retrieved. TObject: " + tObject, id));
+		LOGGER.debug(String.format("TObject with id: %d retrieved. TObject: %s", id, tObject));
 		return tObject;
 	}
 

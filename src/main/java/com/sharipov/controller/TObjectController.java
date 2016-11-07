@@ -29,7 +29,7 @@ public class TObjectController {
 	private TObjectService tObjectService;
 
 	@Autowired
-	public void settObjectService(TObjectService tObjectService) {
+	public void setTObjectService(TObjectService tObjectService) {
 		this.tObjectService = tObjectService;
 	}
 
@@ -45,7 +45,7 @@ public class TObjectController {
 			throw new TObjectNotFoundException();
 		}
 		tObjectService.save(tObject, Optional.ofNullable(id).orElse(new Integer(0)));
-		return new ResponseEntity<TObject>(tObject, HttpStatus.OK);
+		return new ResponseEntity<>(tObject, HttpStatus.OK);
 	}
 
 	@RequestMapping(path = "objects", method = RequestMethod.GET)
@@ -61,7 +61,7 @@ public class TObjectController {
 			throw new TObjectNotFoundException();
 		}
 		tObjectService.delete(id);
-		return new ResponseEntity<Integer>(id, HttpStatus.OK);
+		return new ResponseEntity<>(id, HttpStatus.OK);
 	}
 
 	@RequestMapping(path = "object/{id}", method = RequestMethod.GET)
@@ -71,7 +71,7 @@ public class TObjectController {
 			throw new TObjectNotFoundException();
 		}
 		TObject tObject = tObjectService.findOne(id);
-		return new ResponseEntity<TObject>(tObject, HttpStatus.OK);
+		return new ResponseEntity<>(tObject, HttpStatus.OK);
 	}
 
 }
