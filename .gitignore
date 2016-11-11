@@ -1,5 +1,8 @@
 # Maven
 target
+#idea
+.idea
+
 
 # Eclipse
 .project
