@@ -6,10 +6,10 @@
     </Console>
 </Appenders>
 <Loggers>
-    <Logger name="com.sharipov.controller.TObjectController" level="debug">
+    <Logger name="com.sharipov.controller.TestObjectController" level="debug">
         <AppenderRef ref="Console"/>
     </Logger>
-    <Logger name="com.sharipov.service.TObjectServiceBean" level="debug">
+    <Logger name="com.sharipov.service.TestObjectServiceBean" level="debug">
         <AppenderRef ref="Console"/>
     </Logger>
     <Root level="INFO">

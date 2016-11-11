@@ -9,13 +9,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
-	@ExceptionHandler(value = { TObjectNotFoundException.class })
-	protected ResponseEntity<Object> handleConflict(TObjectNotFoundException ex, WebRequest request) {
+	@ExceptionHandler(value = { TestObjectNotFoundException.class })
+	protected ResponseEntity<Object> handleConflict(TestObjectNotFoundException ex, WebRequest request) {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
-	@ExceptionHandler(value = { TObjectBadRequestException.class })
-	protected ResponseEntity<Object> handleConflict(TObjectBadRequestException ex, WebRequest request) {
+	@ExceptionHandler(value = { TestObjectBadRequestException.class })
+	protected ResponseEntity<Object> handleConflict(TestObjectBadRequestException ex, WebRequest request) {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 }

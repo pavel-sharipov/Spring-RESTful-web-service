@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "objects")
-public class TObject {
+public class TestObject {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -18,17 +18,17 @@ public class TObject {
 	@Column(nullable = false)
 	private long value;
 
-	public TObject() {
+	public TestObject() {
 	}
 
-	public TObject(int id, String title, long value) {
+	public TestObject(int id, String title, long value) {
 
 		this.id = id;
 		this.title = title;
 		this.value = value;
 	}
 
-	public TObject(String title, long value) {
+	public TestObject(String title, long value) {
 		this.title = title;
 		this.value = value;
 	}
@@ -59,7 +59,7 @@ public class TObject {
 
 	@Override
 	public String toString() {
-		return "TObject [id=" + id + ", title=" + title + ", value=" + value + "]";
+		return "TestObject [id=" + id + ", title=" + title + ", value=" + value + "]";
 	}
 
 }

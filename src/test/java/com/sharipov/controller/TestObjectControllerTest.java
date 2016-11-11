@@ -28,13 +28,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sharipov.model.TObject;
-import com.sharipov.service.TObjectService;
+import com.sharipov.model.TestObject;
+import com.sharipov.service.TestObjectService;
 
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
-@WebMvcTest(TObjectController.class)
-public class TObjectControllerTest {
+@WebMvcTest(TestObjectController.class)
+public class TestObjectControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -43,7 +43,7 @@ public class TObjectControllerTest {
 	private WebApplicationContext context;
 
 	@MockBean
-	private TObjectService tObjectService;
+	private TestObjectService testObjectService;
 
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -62,7 +62,7 @@ public class TObjectControllerTest {
 
 	@Test
 	public void findTObjects_StorageIsNotEmpty_OneTObjectIsReturned() throws Exception {
-		given(tObjectService.findAll()).willReturn(Arrays.asList(new TObject()));
+		given(testObjectService.findAll()).willReturn(Arrays.asList(new TestObject()));
 		mockMvc.perform(get("/objects")).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$", Matchers.hasSize(1)));
@@ -70,11 +70,11 @@ public class TObjectControllerTest {
 
 	@Test
 	public void saveTObject_validTObject_TObjectIsReturned() throws Exception {
-		TObject tObject = new TObject();
-		tObject.setValue(100);
-		tObject.setTitle("Java 8");
+		TestObject testObject = new TestObject();
+		testObject.setValue(100);
+		testObject.setTitle("Java 8");
 		mockMvc.perform(post("/object").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-				.content(MAPPER.writeValueAsString(tObject))).andExpect(status().isOk())
+				.content(MAPPER.writeValueAsString(testObject))).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.title", Matchers.equalTo("Java 8")));
 
@@ -82,30 +82,30 @@ public class TObjectControllerTest {
 
 	@Test
 	public void saveTObject_NotValidTObject_BadRequest() throws Exception {
-		TObject tObject = new TObject();
+		TestObject testObject = new TestObject();
 
-		tObject.setTitle("Java 8");
+		testObject.setTitle("Java 8");
 		mockMvc.perform(post("/object").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-				.content(MAPPER.writeValueAsString(tObject))).andExpect(status().isBadRequest());
+				.content(MAPPER.writeValueAsString(testObject))).andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void saveTObject_NotValidId_NotFound() throws Exception {
-		TObject tObject = new TObject(2, "test post", 20);
-		given(tObjectService.contains(2)).willReturn(false);
+		TestObject testObject = new TestObject(2, "test post", 20);
+		given(testObjectService.contains(2)).willReturn(false);
 		mockMvc.perform(post("/object/2").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-				.content(MAPPER.writeValueAsString(tObject))).andExpect(status().isNotFound());
+				.content(MAPPER.writeValueAsString(testObject))).andExpect(status().isNotFound());
 	}
 
 	@Test
 	public void updateTObject_validTObject_TObjectIsReturned() throws Exception {
-		TObject tObject = new TObject(2, "Java 8", 100);
+		TestObject testObject = new TestObject(2, "Java 8", 100);
 		mockMvc.perform(post("/object").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-				.content(MAPPER.writeValueAsString(tObject)));
-		TObject tObject2 = new TObject(2, "Java 9", 200);
-		given(tObjectService.contains(2)).willReturn(true);
+				.content(MAPPER.writeValueAsString(testObject)));
+		TestObject testObject2 = new TestObject(2, "Java 9", 200);
+		given(testObjectService.contains(2)).willReturn(true);
 		mockMvc.perform(put("/object/2").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-				.content(MAPPER.writeValueAsString(tObject2))).andExpect(status().isOk())
+				.content(MAPPER.writeValueAsString(testObject2))).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.title", Matchers.equalTo("Java 9")));
 
@@ -113,9 +113,9 @@ public class TObjectControllerTest {
 
 	@Test
 	public void findTObjectByID_ValidId_OneObjectIsReturned() throws Exception {
-		TObject tObject = new TObject(1, "Test TObject", 100);
-		given(tObjectService.findOne(1)).willReturn(tObject);
-		given(tObjectService.contains(1)).willReturn(true);
+		TestObject testObject = new TestObject(1, "Test TestObject", 100);
+		given(testObjectService.findOne(1)).willReturn(testObject);
+		given(testObjectService.contains(1)).willReturn(true);
 		mockMvc.perform(get("/object/1")).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.id", Matchers.equalTo(1)));
@@ -123,21 +123,21 @@ public class TObjectControllerTest {
 
 	@Test
 	public void findTObjectByID_NotValidId_NotFound() throws Exception {
-		given(tObjectService.contains(1)).willReturn(false);
+		given(testObjectService.contains(1)).willReturn(false);
 		mockMvc.perform(get("/object/1")).andExpect(status().isNotFound());
 	}
 
 	@Test
 	public void deleteTObjectById_ValidId_OneObjectIsDeleted() throws Exception {
-		given(tObjectService.contains(1)).willReturn(true);
-		doNothing().when(tObjectService).delete(1);
+		given(testObjectService.contains(1)).willReturn(true);
+		doNothing().when(testObjectService).delete(1);
 		mockMvc.perform(delete("/object/1")).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 	}
 
 	@Test
 	public void deleteTObjectById_NotValidId_NotFound() throws Exception {
-		given(tObjectService.contains(1)).willReturn(false);
+		given(testObjectService.contains(1)).willReturn(false);
 		mockMvc.perform(delete("/object/1")).andExpect(status().isNotFound());
 	}
 
