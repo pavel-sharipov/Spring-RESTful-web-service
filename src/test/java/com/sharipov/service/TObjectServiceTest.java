@@ -1,4 +1,4 @@
-package com.sharipov.controller;
+package com.sharipov.service;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;

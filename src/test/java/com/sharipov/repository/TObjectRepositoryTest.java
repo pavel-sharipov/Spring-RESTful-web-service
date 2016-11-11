@@ -1,4 +1,4 @@
-package com.sharipov.controller;
+package com.sharipov.repository;
 
 import java.util.List;
 
