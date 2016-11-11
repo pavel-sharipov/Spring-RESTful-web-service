@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driverClassName : com.mysql.jdbc.Driver
+    url : jdbc:mysql://localhost/test
+    userName : student
+    password : student
+
+  jpa:
+    hibernate:
+      ddl-auto : update
+server:
+  port: 8443
+  ssl:
+    enabled : true
+    key-store :  keystore.p12
+    key-store-password : qwerty
+    keyStoreType : PKCS12
+    keyAlias : tomcat
+    sessionTimeout : 30
