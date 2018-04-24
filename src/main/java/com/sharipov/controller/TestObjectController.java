@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sharipov.service.TestObjectService;
 
-@Service
 @RestController
 @RequestMapping("/")
 public class TestObjectController {
